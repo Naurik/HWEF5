@@ -13,7 +13,8 @@ namespace HWEF5
             
             using (var context = new ContextStore())
             {
-                //#region Stores
+                //Добавляем данные в таблицу Store(магазин)
+                #region Stores
                 //Console.WriteLine("Введите кол-во товаров которые хотите добавит в магазин?");
                 //int countItemsInStore = int.Parse(Console.ReadLine());
                 //for (int i = 0; i < countItemsInStore; i++)
@@ -33,9 +34,10 @@ namespace HWEF5
                 //    context.Stores.Add(store);
                 //    context.SaveChanges();
                 //}
-                //#endregion
+                #endregion
 
-                //#region AddUser
+                //Добавляем данные в таблицу User(пользователь) и заносим в корзину товар
+                #region AddUser
                 //Console.WriteLine("Сколько пользователей добавить?");
                 //int countUser = int.Parse(Console.ReadLine());
                 //for (int i = 0; i < countUser; i++)
@@ -73,15 +75,16 @@ namespace HWEF5
                 //    context.Basket.Add(basket);
                 //    context.SaveChanges();
                 //}
-                //#endregion
+                #endregion
 
+                //Якобы после выхода из приложения заходим обратно
                 #region EnterUser
                 Console.WriteLine("Введите логин пользователя?");
                 string enterLoginAgain = Console.ReadLine();
                 
-                int number2 = context.Users.Count(user => user.Login.Contains(enterLoginAgain));
+                int check = context.Users.Count(user => user.Login.Contains(enterLoginAgain));
                 
-                if (number2!=0)
+                if (check != 0)
                 {
                     //возвращаем Id пользователя логин которого равен введенным повторно
                     var getUsersId = (from user in context.Users
@@ -91,9 +94,9 @@ namespace HWEF5
                     var getBasket = from basket in context.Basket
                               where basket.UserId == getUsersId
                               select basket;
-                    foreach(BasketUsers n in getBasket)
+                    foreach(BasketUsers basketAgain in getBasket)
                     {
-                        Console.WriteLine(n.NameItems + "  " + n.PriceItems + "  " + n.CountItems);
+                        Console.WriteLine(basketAgain.NameItems + "  " + basketAgain.PriceItems + "  " + basketAgain.CountItems);
                         Console.ReadLine();
                     }
                 }
